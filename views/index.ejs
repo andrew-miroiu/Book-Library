@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+</head>
+<body>
+  <h1><%= title %></h1>
+
+  <form action="/search" method="get">
+    <input type="text" id="search" name="query" placeholder="Search users..." required>
+    <button type="submit">Search</button>
+  </form>
+
+  <form action="/delete" method="get">
+    <button type="submit">Delete All Users</button>
+
+  <% if (users.length === 0) { %>
+    <p>No users yet!</p>
+  <% } else { %>
+    <ul>
+      <% users.forEach(user => { %>
+        <li><%= user %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <a href="/new">Add a new user</a>
+</body>
+</html>
