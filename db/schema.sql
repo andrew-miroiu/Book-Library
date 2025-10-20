@@ -1,0 +1,23 @@
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS genres;
+
+CREATE TABLE genres (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  description TEXT
+);
+
+CREATE TABLE authors (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  bio TEXT
+);
+
+CREATE TABLE books (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  summary TEXT,
+  author_id INTEGER REFERENCES authors(id) ON DELETE SET NULL,
+  genre_id INTEGER REFERENCES genres(id) ON DELETE SET NULL
+);

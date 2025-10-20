@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+</head>
+<body>
+    
+  <%- include('../partials/header') %>
+
+<h1><%= title %></h1>
+
+<ul>
+  <% authors.forEach(author => { %>
+    <li>
+      <%= author.name %>
+      <form action="/authors/<%= author.id %>/delete" method="POST" style="display:inline">
+        <button type="submit">Delete</button>
+      </form>
+      <a href="/authors/<%= author.id %>">View Books</a>
+    </li>
+  <% }) %>
+</ul>
+
+<a href="/authors/new">Add a new author</a>
+
+<%- include('../partials/footer') %>
+
+</body>
+</html>

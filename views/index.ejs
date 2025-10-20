@@ -2,28 +2,25 @@
 <html>
 <head>
   <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-  <h1><%= title %></h1>
+ <%- include('partials/header') %>
 
-  <form action="/search" method="get">
-    <input type="text" id="search" name="query" placeholder="Search users..." required>
-    <button type="submit">Search</button>
-  </form>
+<ul>
+<% books.forEach(book => { %>
+  <li>
+    <%= book.title %> by <%= book.author %> (Genre: <%= book.genre %>)
+    <form action="/books/<%= book.id %>/delete" method="POST" style="display:inline">
+      <button type="submit">Delete</button>
+    </form>
+  </li>
+<% }) %>
+</ul>
 
-  <form action="/delete" method="get">
-    <button type="submit">Delete All Users</button>
+<a href="/books/new">Add a new book</a>
 
-  <% if (users.length === 0) { %>
-    <p>No users yet!</p>
-  <% } else { %>
-    <ul>
-      <% users.forEach(user => { %>
-        <li><%= user %></li>
-      <% }) %>
-    </ul>
-  <% } %>
+<%- include('partials/footer') %>
 
-  <a href="/new">Add a new user</a>
 </body>
 </html>
