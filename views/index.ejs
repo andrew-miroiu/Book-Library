@@ -5,13 +5,17 @@
   <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
- <%- include('partials/header') %>
+
+<%- include('partials/header') %>
 
 <ul>
 <% books.forEach(book => { %>
   <li>
     <%= book.title %> by <%= book.author %> (Genre: <%= book.genre %>)
-    <form action="/books/<%= book.id %>/delete" method="POST" style="display:inline">
+    <form action="/books/<%= book.id %>" method="GET" style="display:inline;">
+      <button type="submit">View Details</button>
+    </form>
+    <form action="/books/<%= book.id %>/delete" method="POST" style="display:inline;">
       <button type="submit">Delete</button>
     </form>
   </li>

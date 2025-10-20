@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", async (req, res) => {
   try {
-    const books = await db.getRandomBooks(5); // We'll add this in queries
+    const books = await db.getRandomBooks(5);
     res.render("index", { title: "Library Home", books });
   } catch (err) {
     console.error(err);

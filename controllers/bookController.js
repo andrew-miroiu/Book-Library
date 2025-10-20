@@ -1,4 +1,6 @@
 const db = require("../db/queries/bookQueries"); // import query functions
+const authorDb = require("../db/queries/authorQueries");
+const genreDb = require("../db/queries/genreQueries");
 
 exports.getBooks = async (req, res) => {
   try {
@@ -21,7 +23,7 @@ exports.getBookById = async (req, res) => {
     if (!book) {
       return res.status(404).send("Book not found");
     }
-    res.render("bookDetail", {
+    res.render("books/bookDetail", {
         title: book.title,
         book: book
     });
@@ -31,8 +33,15 @@ exports.getBookById = async (req, res) => {
   }
 };
 
-exports.getNewBookForm = (req, res) => {
-    res.render("newBook", { title: "Create a new book" });
+exports.getNewBookForm = async (req, res) => {
+    try {
+        const authors = await authorDb.getAllAuthors();
+        const genres = await genreDb.getAllGenres();
+        res.render("books/newBook", { title: "Create a new book", authors, genres });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Server error");
+    }
 };
 
 exports.createBook = async (req, res) => {

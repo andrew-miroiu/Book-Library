@@ -38,14 +38,40 @@ async function getBookById(id) {
 }
 
 // 🟢 Insert new book
-async function insertBook(title, author_id, genre_id, summary) {
-  await pool.query(
-    `
-    INSERT INTO books (title, author_id, genre_id, summary)
-    VALUES ($1, $2, $3, $4);
-    `,
-    [title, author_id, genre_id, summary]
-  );
+async function insertBook(title, authorName, genreName, summary) {
+  try {
+    // Get the author ID from the name
+    const authorRes = await pool.query(
+      "SELECT id FROM authors WHERE name = $1",
+      [authorName]
+    );
+    if (authorRes.rows.length === 0) {
+      throw new Error(`Author "${authorName}" not found`);
+    }
+    const authorId = authorRes.rows[0].id;
+
+    // Get the genre ID from the name
+    const genreRes = await pool.query(
+      "SELECT id FROM genres WHERE name = $1",
+      [genreName]
+    );
+    if (genreRes.rows.length === 0) {
+      throw new Error(`Genre "${genreName}" not found`);
+    }
+    const genreId = genreRes.rows[0].id;
+
+    // Insert the book
+    await pool.query(
+      `INSERT INTO books (title, author_id, genre_id, summary)
+       VALUES ($1, $2, $3, $4)`,
+      [title, authorId, genreId, summary]
+    );
+
+    console.log(`Book "${title}" inserted successfully!`);
+  } catch (err) {
+    console.error("Error inserting book:", err.message);
+    throw err;
+  }
 }
 
 // 🟢 Delete a book by ID
